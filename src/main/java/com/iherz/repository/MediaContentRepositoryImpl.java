@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.iherz.boot.conf.HttpClientLocalConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,7 +18,8 @@ public class MediaContentRepositoryImpl implements MediaContentRepository {
     private HttpClientLocalConfig httpClientLocalConfig;
 
     @Override
-    public JsonArray getMovies(String filter, String level) {
+    @Cacheable("movies")
+    public JsonArray getMovies() {
         RestTemplate restTemplate = new RestTemplate();
         //restTemplate.setRequestFactory(httpClientLocalConfig.getFactory());
         String jsonResponse = restTemplate.getForObject(URL, String.class);
