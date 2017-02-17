@@ -1,8 +1,9 @@
 package com.iherz.service;
 
-import com.google.gson.JsonArray;
+import com.iherz.model.Movie;
+import java.util.List;
 
 public interface MediaContentService {
 
-    JsonArray retrieveMedia(final String filter, final String level);
+    List<Movie> retrieveMedia(final String filter, final String level);
 }

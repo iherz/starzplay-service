@@ -19,16 +19,9 @@ public class MediaContentRepositoryImpl implements MediaContentRepository {
     @Override
     public JsonArray getMovies(String filter, String level) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(httpClientLocalConfig.getFactory());
+        //restTemplate.setRequestFactory(httpClientLocalConfig.getFactory());
         String jsonResponse = restTemplate.getForObject(URL, String.class);
         JsonObject jsonObject = new JsonParser().parse(jsonResponse).getAsJsonObject();
         return jsonObject.getAsJsonArray("entries");
-
-        /*
-        JsonElement movie = entries.get(1);
-        JsonObject classification = movie.getAsJsonObject();
-        JsonElement clasasas = classification.get("peg$contentClassification");
-        String classi = clasasas.getAsString();
-        */
     }
 }
