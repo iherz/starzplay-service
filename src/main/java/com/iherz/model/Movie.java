@@ -11,6 +11,7 @@ public class Movie {
 
     private String title;
     private List<MovieVersion> movieVersionList;
+    private String classification;
 }
 
 

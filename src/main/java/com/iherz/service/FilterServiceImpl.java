@@ -36,8 +36,11 @@ public class FilterServiceImpl implements FilterService {
     private Movie getMovieParametersForCensoringFilter(final JsonElement movieJson, final String level) {
         Movie movie = fillMovieParameters(movieJson);
         if (isThisMovieCensored(movieJson)) {
+            movie.setClassification("Censored");
             movie.setMovieVersionList(movie.getMovieVersionList().stream().filter(movieVersion ->
                     thisMediaHasToBeAdded(movieVersion.getGuid(), level)).collect(Collectors.toList()));
+        } else {
+            movie.setClassification("Uncensored/NoClassified");
         }
         return movie;
     }
@@ -52,8 +55,8 @@ public class FilterServiceImpl implements FilterService {
 
     private Boolean thisMediaHasToBeAdded(final String guid, final String level) {
         return (guid.endsWith("C") && "censored".equals(level.toLowerCase())
-            || !guid.endsWith("C") && "uncensored".equals(level.toLowerCase())
-            || level.isEmpty());
+                || !guid.endsWith("C") && "uncensored".equals(level.toLowerCase())
+                || level.isEmpty());
     }
 
     private Movie fillMovieParameters(final JsonElement movie) {
@@ -68,6 +71,7 @@ public class FilterServiceImpl implements FilterService {
         });
         movieToAdd.setMovieVersionList(movieVersionList);
         movieToAdd.setTitle(movie.getAsJsonObject().get("title").getAsString());
+        movieToAdd.setClassification("");
         return movieToAdd;
     }
 }
